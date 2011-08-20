@@ -125,8 +125,8 @@ sub handler {
                 Act::TwoStep::remove($token);
 
                 # log the user in
-                Act::Util::login($user);
-                
+                $Request{r}->login($user);
+
                 # display "added page"
                 $template->variables(
                     clear_passwd => $clear_passwd,
