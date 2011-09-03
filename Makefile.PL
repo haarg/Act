@@ -23,6 +23,7 @@ requires(
 'Email::Simple::Creator' => 0, 
 'Email::Simple' => 0, 
 'Email::Valid' => 0, 
+'Facebook::Graph' => 0,
 'Flickr::API' => 0, 
 'HTML::Entities' => 0, 
 'HTML::TagCloud' => 0, 
