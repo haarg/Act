@@ -34,6 +34,7 @@ requires(
 'LWP::UserAgent' => 0, 
 'List::Pairwise' => 0, 
 'Locale::Maketext::Lexicon' => 0, 
+'Module::Find' => 0,
 'Net::OpenID::Server' => 0, 
 'Pod::POM' => 0, 
 'Plack'    => 0,
