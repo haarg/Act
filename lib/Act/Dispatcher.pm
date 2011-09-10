@@ -16,6 +16,7 @@ use Act::Middleware::Language;
 my %public_handlers = (
     api             => 'Act::Handler::WebAPI',
     atom            => 'Act::Handler::News::Atom',
+    auth_methods    => 'Act::Handler::AuthMethods',
     changepwd       => 'Act::Handler::User::ChangePassword',
     event           => 'Act::Handler::Event::Show',
     events          => 'Act::Handler::Event::List',
