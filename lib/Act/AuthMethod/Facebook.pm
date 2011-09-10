@@ -49,6 +49,7 @@ sub facebook_graph {
     );
 }
 
+# XXX we have to be *really* careful about XSS possibilities
 sub render {
     my ( $self ) = @_;
 
