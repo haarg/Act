@@ -38,3 +38,8 @@ This Git repository is for changes specific to YAPC::NA 2012; if you have
 generic fixes/patches, please submit them to official repo at https://github.com/book/Act.
 I'll try to merge regularly, but if your patch is present in the official repo but not
 this one, just poke me (hoelzro) and I'll merge in your patch as soon as I can.
+
+There are two principal branches in this fork of Act:
+
+  - master   - Tracks https://github.com/book/Act/tree/psgi.  Fixes for the PSGI version of Act go here.
+  - yapc-dev - YAPC::NA 2012-specific features go here.  Regularly merges with master.
