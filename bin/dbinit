@@ -297,4 +297,16 @@ CREATE TABLE tags
     tagged_id     text NOT NULL
 );
 
+DROP   TABLE auth_methods CASCADE;
+CREATE TABLE
+(
+    user_id INTEGER NOT NULL REFERENCES users(user_id),
+);
+
+DROP   TABLE facebook_auths CASCADE
+CREATE TABLE facebook_auths
+(
+    facebook_id INTEGER NOT NULL
+) INHERITS(auth_methods);
+
 EOF
