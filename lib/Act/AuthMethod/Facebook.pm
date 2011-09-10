@@ -15,22 +15,22 @@ sub new {
     };
     return unless $load_ok;
 
-    my $api_key = $Config->facebook_api_key;
+    my $app_id = $Config->facebook_app_id;
     my $secret  = $Config->facebook_secret;
 
-    return unless defined($api_key) && defined($secret);
+    return unless defined($app_id) && defined($secret);
 
     my $self           = Act::AuthMethod::new($class);
-    $self->{'api_key'} = $api_key;
+    $self->{'app_id'} = $app_id;
     $self->{'secret'}  = $secret;
 
     return $self;
 }
 
-sub api_key {
+sub app_id {
     my ( $self ) = @_;
 
-    return $self->{'api_key'};
+    return $self->{'app_id'};
 }
 
 sub secret {
