@@ -2,6 +2,7 @@ package Act::Handler::Login;
 
 use strict;
 use parent 'Act::Handler';
+use Act::AuthMethods;
 use Act::Config;
 use Act::Template::HTML;
 use Act::Util;
@@ -20,10 +21,11 @@ sub handler
     # process the login form template
     my $template = Act::Template::HTML->new();
     $template->variables(
-        error       => $env->{'act.login.error'},
-        destination => $uri,
-        action      => join('/', '', $Request{conference}, 'LOGIN'),
-        domain      => join('.', (split /\./, $r->env->{SERVER_NAME})[-2, -1]),
+        error        => $env->{'act.login.error'},
+        destination  => $uri,
+        action       => join('/', '', $Request{conference}, 'LOGIN'),
+        domain       => join('.', (split /\./, $r->env->{SERVER_NAME})[-2, -1]),
+        auth_methods => Act::AuthMethods->retrieve,
     );
     $template->process('login');
     $Request{status} = 200;
