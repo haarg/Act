@@ -1,0 +1,70 @@
+=head1 Getting started working on Act
+
+This is a guide on getting started working on Act.  It's based on
+http://blog.yapcna.org/post/9270310486/hacking-on-act, but will
+include improvements over time.
+
+=head2 Setting up the database
+
+Act uses PostgreSQL for its data storage.  I'll assume that you know how to
+set up a PostgreSQL server.  After you've done this, run this following
+commands using your favorite shell (assuming PostgreSQL is running on
+localhost):
+
+  createuser act -D -R -S
+  createdb act -O act --encoding=UTF8
+  createdb actwiki -O act --encoding=UTF8
+  createdb acttest -O act --encoding=UTF8
+  bin/dbinit | psql -U act act # this will spit out some "errors"; don't worry!
+  bin/dbinit | psql -U act actest
+  wiki-toolkit-setupdb --type postgres --name actwiki --user act
+
+=head2 Copying over static files
+
+After the database has been set up, you need to copy over the various
+templates and staticf files into the current directory:
+
+  cp skel/actdocs/static .
+
+=head2 Creating the configuration file
+
+Now create a C<conf/act.ini> configuration file.  If you're looking for a
+quick start (which I presume you are), you can base your configuration off
+of my example here: https://gist.github.com/1163921
+
+=head2 Setting the environment
+
+One last thing to do before we're ready:
+
+  export ACTHOME=$(pwd)
+
+=head2 Plackup!
+
+This part's easy:
+
+  plackup
+
+Now Act is running on port 5000!
+
+=head2 Creating your test account
+
+To test a lot of the application, you'll need an account.  So point your
+browser to the registration page:
+
+  http://localhost:5000/MY_CONFERENCE_NAME/register
+
+Once you complete the registration form, you may not get an actual e-mail
+(depending on if your machine is set up to send mail).  To continue your
+registration, you can dig into your Act database to find your registration
+token:
+
+  psql -U act act
+  > select token from twostep where email = 'MY_EMAIL'
+
+Once you have the token, point your browser to this URL:
+
+  http://localhost:5000/MY_CONFERENCE_NAME/register/MY_TOKEN
+
+Here you can complete your registration.
+
+=cut
