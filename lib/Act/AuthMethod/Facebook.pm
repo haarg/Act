@@ -5,6 +5,7 @@ use warnings;
 use parent 'Act::AuthMethod';
 
 use Act::Config;
+use Act::Util qw(make_uri);
 
 sub new {
     my ( $class ) = @_;
@@ -45,7 +46,7 @@ sub facebook_graph {
     return Facebook::Graph->new(
         app_id   => $self->app_id,
         secret   => $self->secret,
-        postback => 'http://localhost:5000/yapcna/auth_methods/facebook',
+        postback => make_uri('auth_methods/facebook'),
     );
 }
 
