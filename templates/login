@@ -42,6 +42,17 @@
       <input type="submit" name="join" value="{{Submit}}" />
    </td>
 </tr>
+[% IF auth_methods.size > 0 -%]
+<tr>
+    <td>Alternative Login Methods:</td>
+</tr>
+  [% FOREACH method IN auth_methods -%]
+<tr>
+    <td></td>
+    <td>[% method.render() -%]</td>
+</tr>
+  [% END -%]
+[% END -%]
 </table>
 </td></tr></table>
 
