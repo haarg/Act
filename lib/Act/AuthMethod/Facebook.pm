@@ -17,45 +17,33 @@ sub new {
     return unless $load_ok;
 
     my $app_id = $Config->facebook_app_id;
-    my $secret  = $Config->facebook_secret;
+    my $secret = $Config->facebook_secret;
 
     return unless defined($app_id) && defined($secret);
 
-    my $self           = Act::AuthMethod::new($class);
-    $self->{'app_id'} = $app_id;
-    $self->{'secret'}  = $secret;
+    my $self = Act::AuthMethod::new($class);
+    my $fb   = $Request{r}->session->{'facebook_graph'};
+    unless($fb) {
+        $fb = Facebook::Graph->new(
+            app_id   => $app_id,
+            secret   => $secret,
+            postback => make_uri('auth_methods/facebook'),
+            ## deregister URL
+        );
+    }
+
+    $self->{'facebook_uri'} = $fb->authorize->uri_as_string;
+
+    $Request{r}->session->{'facebook_graph'} = $fb;
 
     return $self;
-}
-
-sub app_id {
-    my ( $self ) = @_;
-
-    return $self->{'app_id'};
-}
-
-sub secret {
-    my ( $self ) = @_;
-
-    return $self->{'secret'};
-}
-
-sub facebook_graph {
-    my ( $self ) = @_;
-
-    return Facebook::Graph->new(
-        app_id   => $self->app_id,
-        secret   => $self->secret,
-        postback => make_uri('auth_methods/facebook'),
-    );
 }
 
 # XXX we have to be *really* careful about XSS possibilities
 sub render {
     my ( $self ) = @_;
 
-    my $fb  = $self->facebook_graph;
-    my $uri = $fb->authorize->uri_as_string;
+    my $uri = $self->{'facebook_uri'};
 
     ## i18nize
     return <<HTML;
@@ -70,12 +58,20 @@ sub name {
 }
 
 sub handle_postback {
-    my ( $self ) = @_;
+    my ( $self, $req ) = @_;
 
-    my $fb = $self->facebook_graph;
-    $fb->request_access_token($params->{'code'});
+    my $fb   = $Request{r}->session->{'facebook_graph'};
+    my $code = $req->param('code');
+
+    $fb->request_access_token($code);
+    
+    use Data::Dumper::Concise;
+
+    $req->response->content_type('text/plain');
+    $req->response->body(Dumper($fb->fetch('me')));
     ## create new user
 }
+
 
 1;
 
