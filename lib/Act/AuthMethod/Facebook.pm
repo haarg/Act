@@ -56,10 +56,11 @@ sub render {
     my $fb  = $self->facebook_graph;
     my $uri = $fb->authorize->uri_as_string;
 
-    ## fill in image source
     ## i18nize
     return <<HTML;
-<a href='$uri'><img src='' alt='Login with Facebook'/></a>
+<a href='$uri' class='fb_button fb_button_medium'>
+  <span class='fb_button_text'>Log In With Facebook</span>
+</a>
 HTML
 }
 
