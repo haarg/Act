@@ -3,6 +3,12 @@ package Act::AuthMethod;
 use strict;
 use warnings;
 
+sub new {
+    my ( $class ) = @_;
+
+    return bless {}, $class;
+}
+
 1;
 
 __END__
