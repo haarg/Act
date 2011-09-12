@@ -1,0 +1,35 @@
+[% WRAPPER ui title = loc("Associate with an existing account") -%]
+<form method='POST'>
+    {{Would you like to associate this authentication method with an existing account?}}
+    <table>
+        <tr>
+            <td>
+                <label for='username'>{{User}}:</label>
+            </td>
+            <td>
+                <input type='text' name='username' id='username' />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for='password'>{{Password}}:</label>
+            </td>
+            <td>
+                <input type='password' name='password' id='password' />
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td><input type='submit' name='skip' value='{{Skip this step}}' /></td>
+                        <td><input type='submit' name='associate' value='{{Associate}}'/></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</form>
+[% END %]
