@@ -306,7 +306,9 @@ CREATE TABLE auth_methods
 DROP   TABLE facebook_auths CASCADE
 CREATE TABLE facebook_auths
 (
-    facebook_id INTEGER NOT NULL
+    facebook_id INTEGER NOT NULL UNIQUE,
+
+    UNIQUE(user_id)
 ) INHERITS(auth_methods);
 
 EOF
