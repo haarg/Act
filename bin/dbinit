@@ -298,9 +298,9 @@ CREATE TABLE tags
 );
 
 DROP   TABLE auth_methods CASCADE;
-CREATE TABLE
+CREATE TABLE auth_methods
 (
-    user_id INTEGER NOT NULL REFERENCES users(user_id),
+    user_id INTEGER NOT NULL REFERENCES users(user_id)
 );
 
 DROP   TABLE facebook_auths CASCADE
