@@ -65,12 +65,23 @@ sub handle_postback {
     my $code = $req->param('code');
 
     $fb->request_access_token($code);
-    
-    use Data::Dumper::Concise;
 
-    $req->response->content_type('text/plain');
-    $req->response->body(Dumper($fb->fetch('me')));
-    ## create new user
+    my $profile = $fb->fetch('me');
+    # XXX I *think* Act::Object can handle this...
+    my $dbh     = $Request{'dbh'};
+    my $sth     = $dbh->prepare(<<SQL);
+SELECT u.user_id FROM facebook_auths AS fa
+INNER JOIN users AS u
+ON fa.facebook_id = ?
+SQL
+
+    $req->session->{'auth_method_info'} = $profile;
+    $sth->execute($profile->{'id'});
+
+    my ( $user_id ) = $sth->fetchrow_array;
+
+    return $user_id;
+    # @{$profile}{qw/id first_name last_name name username/}
 }
 
 
