@@ -24,7 +24,8 @@ localhost):
 After the database has been set up, you need to copy over the various
 templates and static files into the current directory:
 
-  cp skel/actdocs/static .
+  mkdir static
+  cp -R skel/actdocs/static/* static/
 
 =head2 Creating the configuration file
 
