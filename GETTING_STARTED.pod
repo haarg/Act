@@ -22,7 +22,7 @@ localhost):
 =head2 Copying over static files
 
 After the database has been set up, you need to copy over the various
-templates and staticf files into the current directory:
+templates and static files into the current directory:
 
   cp skel/actdocs/static .
 
