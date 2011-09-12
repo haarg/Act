@@ -5,7 +5,7 @@ use warnings;
 use parent 'Act::AuthMethod';
 
 use Act::Config;
-use Act::Util qw(make_uri);
+use Act::Util qw(localize make_uri);
 
 sub new {
     my ( $class ) = @_;
@@ -43,12 +43,13 @@ sub new {
 sub render {
     my ( $self ) = @_;
 
-    my $uri = $self->{'facebook_uri'};
+    my $uri        = $self->{'facebook_uri'};
+    my $login_text = localize('Login with Facebook');
 
     ## i18nize
     return <<HTML;
 <a href='$uri' class='fb_button fb_button_medium'>
-  <span class='fb_button_text'>Log In With Facebook</span>
+  <span class='fb_button_text'>$login_text</span>
 </a>
 HTML
 }
