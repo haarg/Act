@@ -1415,3 +1415,18 @@ msgstr "User is not registered."
 
 msgid "No account?"
 msgstr "No account? Register <a href=\"%1\">here</a>."
+
+msgid "Login with Facebook"
+msgstr "Login with Facebook"
+
+msgid "Would you like to associate this authentication method with an existing account?"
+msgstr "Would you like to associate this authentication method with an existing account?"
+
+msgid "Skip this step"
+msgstr "Skip this step"
+
+msgid "Associate"
+msgstr "Associate"
+
+msgid "Associate with an existing account"
+msgstr "Associate with an existing account"
