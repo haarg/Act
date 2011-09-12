@@ -6,6 +6,8 @@ use parent 'Act::Handler';
 
 use Act::AuthMethods;
 use Act::Config;
+use Act::Template::HTML;
+use Act::Util;
 
 sub handler
 {
@@ -31,10 +33,26 @@ sub handler
         ];
     }
 
-    $auth_method->handle_postback($r);
-    
-    return 200;
+    $session->{'auth_method'} = $auth_method->name;
+    my $user_id = $auth_method->handle_postback($r);
 
+    if(defined $user_id) {
+        my $res  = $r->response;
+        my $user = Act:User->new( user_id => $user_id ) or die ["Unknown user"];
+        my $sid  = Act::Util::create_session($user);
+        # XXX use Act::MW::Auth's _set_session?
+        $res->cookies->{'Act_session_id'} = {
+            value => $sid,
+        };
+        return $res->finalize;
+    } else {
+        my $template = Act::Template::HTML->new;
+        $template->process('associate_auth_method');
+        return 200;
+    }
+        my $template = Act::Template::HTML->new;
+        $template->process('associate_auth_method');
+        return 200;
 }
 
 1;
