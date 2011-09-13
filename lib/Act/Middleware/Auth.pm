@@ -60,6 +60,7 @@ sub _set_session {
     my $remember_me = shift;
     $resp->cookies->{Act_session_id} = {
         value => $sid,
+        path  => '/',
         $remember_me ? ( expires => time + 6*30*24*60*60 ) : (),
     };
 }
