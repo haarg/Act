@@ -7,12 +7,14 @@ use parent 'Act::Handler';
 use Act::AuthMethods;
 use Act::Config;
 use Act::Template::HTML;
-use Act::Util;
+use Act::Util qw(make_uri);
+use Try::Tiny;
 
 sub handler
 {
     my $r           = $Request{r};
     my $auth_method = $r->path_info;
+    my $session     = $r->session;
 
     $auth_method =~ s!^/!!;
     $auth_method =~ s!/.*!!;
@@ -33,26 +35,52 @@ sub handler
         ];
     }
 
-    $session->{'auth_method'} = $auth_method->name;
-    my $user_id = $auth_method->handle_postback($r);
+    if($r->method eq 'GET') {
+        $session->{'auth_method'} = $auth_method->name;
+        my $user_id = $auth_method->handle_postback($r);
 
-    if(defined $user_id) {
-        my $res  = $r->response;
-        my $user = Act:User->new( user_id => $user_id ) or die ["Unknown user"];
-        my $sid  = Act::Util::create_session($user);
-        # XXX use Act::MW::Auth's _set_session?
-        $res->cookies->{'Act_session_id'} = {
-            value => $sid,
-        };
-        return $res->finalize;
+        if(defined $user_id) {
+            my $res  = $r->response;
+            my $user = Act::User->new( user_id => $user_id ) or die ["Unknown user"];
+            my $sid  = Act::Util::create_session($user);
+            Act::Middleware::Auth::_set_session($res, $sid, 0);
+            $res->redirect('/yapcna/');
+            return $res->status;
+        } else {
+            my $template = Act::Template::HTML->new;
+            $template->process('associate_auth_method');
+            return;
+        }
     } else {
-        my $template = Act::Template::HTML->new;
-        $template->process('associate_auth_method');
-        return 200;
+         my $params = $r->parameters;
+
+         if($params->{'skip'}) {
+            # they want to create a fresh account
+            my $user = Act::User->create(
+                user_id  => 
+                password => '...',
+            );
+         } else {
+            my $username = $params->{'username'};
+            my $password = $params->{'password'};
+
+            my $user = Act::User->new( login => $username );
+            die ["Unknown user"] unless $user; ## handle this
+
+            try {
+                $user->check_password($password);
+            } catch {
+                die ["Bad password"]; ## handle this
+            };
+
+            $auth_method->associate_with_user($r, $user);
+            my $sid = Act::Util::create_session($user);
+            my $res = $r->response;
+            Act::Middleware::Auth::_set_session($res, $sid, 0);
+            $res->redirect('/');
+            return;
+         }
     }
-        my $template = Act::Template::HTML->new;
-        $template->process('associate_auth_method');
-        return 200;
 }
 
 1;
