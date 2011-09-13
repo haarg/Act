@@ -84,6 +84,17 @@ SQL
     # @{$profile}{qw/id first_name last_name name username/}
 }
 
+sub associate_with_user {
+    my ( $self, $req, $user ) = @_;
+
+    my $facebook_id = $req->session->{'auth_method_info'}{'id'};
+
+    my $dbh = $Request{dbh};
+    $dbh->do('INSERT INTO facebook_auths (user_id, facebook_id) VALUES (?, ?)',
+        undef, $user->user_id, $facebook_id);
+
+}
+
 
 1;
 
