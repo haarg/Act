@@ -44,7 +44,8 @@ sub handler
             my $user = Act::User->new( user_id => $user_id ) or die ["Unknown user"];
             my $sid  = Act::Util::create_session($user);
             Act::Middleware::Auth::_set_session($res, $sid, 0);
-            $res->redirect('/yapcna/');
+            my $url = '/' . $r->env->{'act.conference'} . '/';
+            $res->redirect($url);
             return $res->status;
         } else {
             my $template = Act::Template::HTML->new;
