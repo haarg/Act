@@ -66,19 +66,30 @@ sub handler
             my $password = $params->{'password'};
 
             my $user = Act::User->new( login => $username );
-            die ["Unknown user"] unless $user; ## handle this
+            unless($user) {
+                my $template = Act::Template::HTML->new;
+                $template->variables(
+                    error => 'Unknown user',
+                );
+                $template->process('associate_auth_method');
+                return;
+            }
 
             try {
                 $user->check_password($password);
-            } catch {
-                die ["Bad password"]; ## handle this
-            };
 
-            $auth_method->associate_with_user($r, $user);
-            my $sid = Act::Util::create_session($user);
-            my $res = $r->response;
-            Act::Middleware::Auth::_set_session($res, $sid, 0);
-            $res->redirect('/');
+                $auth_method->associate_with_user($r, $user);
+                my $sid = Act::Util::create_session($user);
+                my $res = $r->response;
+                Act::Middleware::Auth::_set_session($res, $sid, 0);
+                $res->redirect('/');
+            } catch {
+                my $template = Act::Template::HTML->new;
+                $template->variables(
+                    error => 'Bad password',
+                );
+                $template->process('associate_auth_method');
+            };
             return;
          }
     }

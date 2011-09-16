@@ -1,4 +1,12 @@
 [% WRAPPER ui title = loc("Associate with an existing account") -%]
+
+[% IF error;
+     WRAPPER error_ui;
+       loc('Incorrect login or password');
+     END;
+   END
+%]
+
 <form method='POST'>
     {{Would you like to associate this authentication method with an existing account?}}
     <table>
