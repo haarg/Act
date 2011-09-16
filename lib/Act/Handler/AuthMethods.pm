@@ -82,7 +82,8 @@ sub handler
                 my $sid = Act::Util::create_session($user);
                 my $res = $r->response;
                 Act::Middleware::Auth::_set_session($res, $sid, 0);
-                $res->redirect('/');
+                my $url = '/' . $r->env->{'act.conference'} . '/';
+                $res->redirect($url);
             } catch {
                 my $template = Act::Template::HTML->new;
                 $template->variables(
