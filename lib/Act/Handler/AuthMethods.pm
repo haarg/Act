@@ -56,11 +56,36 @@ sub handler
          my $params = $r->parameters;
 
          if($params->{'skip'}) {
-            # they want to create a fresh account
-            my $user = Act::User->create(
-                user_id  => 
-                password => '...',
+            my $template = Act::Template::HTML->new;
+            $template->variables(
+                countries => Act::Country::CountryNames(),
+                topten    => Act::Country::TopTen(),
+                end_date => DateTime::Format::Pg->parse_timestamp($Config->talks_end_date)->epoch,
             );
+            $template->process('user/add');
+            return;
+        } elsif($params->{'join'}) {
+            my $res  = $r->response;
+
+            my $passwd = Act::Util::gen_password();
+
+            my %fields = (
+                password      => $passwd,
+                participation => {
+                    tshirt_size => $params->{tshirt},
+                    datetime    => DateTime::Format::Pg->format_timestamp_without_time_zone(DateTime->now()),
+                    ip          => $r->address,
+                },
+            	timezone => $Config->general_timezone,
+                map { $_ => $params->{$_} } qw(login first_name last_name email country),
+            );
+            my $user = Act::User->create(%fields);
+            $auth_method->associate_with_user($r, $user);
+            my $sid  = Act::Util::create_session($user);
+            Act::Middleware::Auth::_set_session($res, $sid, 0);
+            my $url = '/' . $r->env->{'act.conference'} . '/';
+            $res->redirect($url);
+            return $res->status;
          } else {
             my $username = $params->{'username'};
             my $password = $params->{'password'};
