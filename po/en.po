@@ -1430,3 +1430,6 @@ msgstr "Associate"
 
 msgid "Associate with an existing account"
 msgstr "Associate with an existing account"
+
+msgid "Login with Twitter"
+msgstr "Login with Twitter"
