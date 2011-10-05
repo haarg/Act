@@ -311,4 +311,9 @@ CREATE TABLE facebook_auths
     UNIQUE(user_id)
 ) INHERITS(auth_methods);
 
+DROP TABLE twitter_auths CASCADE;
+CREATE TABLE twitter_auths
+(
+) INHERITS(auth_methods);
+
 EOF
