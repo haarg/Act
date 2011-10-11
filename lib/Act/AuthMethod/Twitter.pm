@@ -23,8 +23,8 @@ sub new {
 
     my $twitter = Net::Twitter->new(
         traits          => [qw/OAuth API::REST/],
-        consumer_key    => $key,
-        consumer_secret => $secret,
+        consumer_key    => $consumer_key,
+        consumer_secret => $consumer_secret,
     );
 
     my $self = Act::AuthMethod::new($class);
@@ -85,13 +85,13 @@ SQL
 
     $session->{'auth_method_info'} = {
         access_token        => $access_token,
-        access_token_secret => $access_token_secret
+        access_token_secret => $access_token_secret,
         user_id             => $user_id,
         screen_name         => $screen_name,
     };
     $sth->execute($user_id);
 
-    my ( $user_id ) = $sth->fetchrow_array;
+    ( $user_id ) = $sth->fetchrow_array;
 
     return $user_id;
 }
@@ -100,7 +100,7 @@ sub associate_with_user {
     my ( $self, $req, $user ) = @_;
 
     my ( $token, $token_secret, $twitter_id ) =
-        @{$req->session->{'auth_method_info'}}{qw/access_token access_token_secret user_id/}
+        @{$req->session->{'auth_method_info'}}{qw/access_token access_token_secret user_id/};
 
     my $dbh = $Request{dbh};
     $dbh->do(<<SQL, undef, $user->user_id, $twitter_id, $token, $token_secret);
