@@ -72,8 +72,8 @@ sub handle_postback {
     my $verifier = $req->param('oauth_verifier');
 
     my $twitter = $self->twitter;
-    $twitter->request_token($session->{'twitter'}{'request_token'});
-    $twitter->request_token_secret($session->{'twitter'}{'request_token_secret'});
+    $twitter->request_token($session->{'twitter'}{'token'});
+    $twitter->request_token_secret($session->{'twitter'}{'token_secret'});
 
     delete $session->{'twitter'};
 
