@@ -7,6 +7,17 @@ use parent 'Act::AuthMethod';
 use Act::Config;
 use Act::Util qw(localize make_abs_uri);
 
+sub twitter {
+    my $consumer_key    = $Config->twitter_consumer_key;
+    my $consumer_secret = $Config->twitter_consumer_secret;
+
+    return Net::Twitter->new(
+        traits          => [qw/OAuth API::REST/],
+        consumer_key    => $consumer_key,
+        consumer_secret => $consumer_secret,
+    );
+}
+
 sub new {
     my ( $class ) = @_;
 
@@ -21,13 +32,8 @@ sub new {
 
     return unless defined($consumer_key) && defined($consumer_secret);
 
-    my $twitter = Net::Twitter->new(
-        traits          => [qw/OAuth API::REST/],
-        consumer_key    => $consumer_key,
-        consumer_secret => $consumer_secret,
-    );
-
-    my $self = Act::AuthMethod::new($class);
+    my $twitter = $class->twitter;
+    my $self    = Act::AuthMethod::new($class);
 
     my $callback_url       = make_abs_uri('auth_methods/twitter');
     $self->{'twitter_uri'} = $twitter->get_authorization_url(
@@ -65,9 +71,7 @@ sub handle_postback {
     my $session  = $req->session;
     my $verifier = $req->param('oauth_verifier');
 
-    my $twitter = Net::Twitter->new(
-        traits => [qw/API::REST OAuth/],
-    );
+    my $twitter = $self->twitter;
     $twitter->request_token($session->{'twitter'}{'request_token'});
     $twitter->request_token_secret($session->{'twitter'}{'request_token_secret'});
 
