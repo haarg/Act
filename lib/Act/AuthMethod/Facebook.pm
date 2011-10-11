@@ -5,7 +5,7 @@ use warnings;
 use parent 'Act::AuthMethod';
 
 use Act::Config;
-use Act::Util qw(localize make_uri);
+use Act::Util qw(localize make_abs_uri);
 
 sub new {
     my ( $class ) = @_;
@@ -27,7 +27,7 @@ sub new {
         $fb = Facebook::Graph->new(
             app_id   => $app_id,
             secret   => $secret,
-            postback => make_uri('auth_methods/facebook'),
+            postback => make_abs_uri('auth_methods/facebook'),
             ## deregister URL
         );
     }

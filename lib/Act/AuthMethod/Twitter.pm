@@ -5,7 +5,7 @@ use warnings;
 use parent 'Act::AuthMethod';
 
 use Act::Config;
-use Act::Util qw(localize make_uri);
+use Act::Util qw(localize make_abs_uri);
 
 sub new {
     my ( $class ) = @_;
@@ -30,7 +30,7 @@ sub new {
         );
     }
 
-    my $callback_url       = make_uri('auth_methods/twitter');
+    my $callback_url       = make_abs_uri('auth_methods/twitter');
     $self->{'twitter_url'} = $twitter->get_authorization_url(
         callback => $callback_url);
 

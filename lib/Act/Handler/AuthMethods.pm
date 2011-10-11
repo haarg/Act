@@ -7,7 +7,6 @@ use parent 'Act::Handler';
 use Act::AuthMethods;
 use Act::Config;
 use Act::Template::HTML;
-use Act::Util qw(make_uri);
 use Try::Tiny;
 
 sub handler
