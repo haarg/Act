@@ -35,16 +35,16 @@ sub new {
     my $twitter = $class->twitter;
     my $self    = Act::AuthMethod::new($class);
 
-    my $callback_url       = make_abs_uri('auth_methods/twitter');
-    $self->{'twitter_uri'} = $twitter->get_authorization_url(
-        callback => $callback_url);
+    my $callback_url = make_abs_uri('auth_methods/twitter');
+    my $session      = $Request{r}->session;
 
-    my $session = $Request{r}->session;
-
-    $session->{'twitter'} = {
-        token        => $twitter->request_token,
-        token_secret => $twitter->request_token_secret,
-    };
+    unless(exists $session->{'twitter'}) {
+        $session->{'twitter'} = {
+            url          => $twitter->get_authorization_url(callback => $callback_url),
+            token        => $twitter->request_token,
+            token_secret => $twitter->request_token_secret,
+        };
+    }
 
     return $self;
 }
@@ -52,7 +52,7 @@ sub new {
 sub render {
     my ( $self ) = @_;
 
-    my $uri = $self->{'twitter_uri'};
+    my $uri = $Request{r}->session->{'twitter'}{'url'};
 
     my $login_text = localize('Login with Twitter');
 
@@ -72,6 +72,7 @@ sub handle_postback {
     my $verifier = $req->param('oauth_verifier');
 
     my $twitter = $self->twitter;
+
     $twitter->request_token($session->{'twitter'}{'token'});
     $twitter->request_token_secret($session->{'twitter'}{'token_secret'});
 
@@ -96,7 +97,6 @@ SQL
     $sth->execute($user_id);
 
     ( $user_id ) = $sth->fetchrow_array;
-
     return $user_id;
 }
 
