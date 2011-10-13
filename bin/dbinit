@@ -314,9 +314,9 @@ CREATE TABLE facebook_auths
 DROP TABLE twitter_auths CASCADE;
 CREATE TABLE twitter_auths
 (
-    twitter_id        INTEGER NOT NULL UNIQUE,
-    auth_token        TEXT    NOT NULL,
-    auth_token_secret TEXT    NOT NULL
+    twitter_id          INTEGER NOT NULL UNIQUE,
+    access_token        TEXT    NOT NULL,
+    access_token_secret TEXT    NOT NULL
 ) INHERITS(auth_methods);
 
 EOF
