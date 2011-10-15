@@ -85,7 +85,8 @@ sub handle_postback {
     my $sth = $dbh->prepare(<<SQL);
 SELECT u.user_id FROM twitter_auths AS ta
 INNER JOIN users AS u
-ON ta.twitter_id = ?
+ON ta.user_id = u.user_id
+WHERE ta.twitter_id = ?
 SQL
 
     $session->{'auth_method_info'} = {

@@ -72,7 +72,8 @@ sub handle_postback {
     my $sth     = $dbh->prepare(<<SQL);
 SELECT u.user_id FROM facebook_auths AS fa
 INNER JOIN users AS u
-ON fa.facebook_id = ?
+ON fa.user_id = u.user_id
+WHERE fa.facebook_id = ?
 SQL
 
     $req->session->{'auth_method_info'} = $profile;
