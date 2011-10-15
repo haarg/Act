@@ -1,0 +1,37 @@
+=head1 Act External Authentication
+
+In this day and age, it has become increasingly
+popular to allow one's users to log in to one's web
+application via an external source such as Facebook
+or Twitter.  Act now supports this.
+
+=head2 Facebook Login
+
+In order to enable Facebook login, you'll need the
+L<Facebook::Graph> module installed, and you'll need to
+populate the facebook section of the configuration with
+the app_id and secret parameters.  app_id is the public
+application ID you receive from Facebook when you register
+an application; secret is the private code that your app
+uses to identify itself to Facebook.  Your configuration
+file should include something like this:
+
+    [facebook]
+    app_id = 123456789ABCDEF
+    secret = 123456789ABCDEF
+
+=head2 Twitter Login
+
+In order to enable Twitter login, you'll need the
+L<Net::Twitter> module installed, and you'll need to
+populate the twitter section of the configuration with
+the consumer_key and consumer_secret parameters.
+consumer_key is the public code you receive from Twitter;
+secret is the private code.  Your configuration file should
+include something like this:
+
+    [twitter]
+    consumer_key    = 123456789ABCDEF
+    consumer_secret = 123456789ABCDEF
+
+=cut
