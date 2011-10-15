@@ -40,7 +40,7 @@ sub new {
 
     unless(exists $session->{'twitter'}) {
         $session->{'twitter'} = {
-            url          => $twitter->get_authorization_url(callback => $callback_url),
+            url          => $twitter->get_authentication_url(callback => $callback_url),
             token        => $twitter->request_token,
             token_secret => $twitter->request_token_secret,
         };
