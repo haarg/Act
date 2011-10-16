@@ -46,7 +46,6 @@ sub render {
     my $uri        = $self->{'facebook_uri'};
     my $login_text = localize('Login with Facebook');
 
-    ## i18nize
     return <<HTML;
 <a href='$uri' class='fb_button fb_button_medium'>
   <span class='fb_button_text'>$login_text</span>
