@@ -1,0 +1,45 @@
+=head1 Act External Authentication
+
+All external authentication goes through L<Act::Handler::AuthMethods>.  This
+handler handles all of the generic logic; L<Act::AuthMethod> and its
+subclasses handle the more general behavior.  Each L<Act::AuthMethod> subclass
+must define the L<name|Act::AuthMethod/name> method; if Act::AuthMethod::Foo->name
+returns "foo", then requests going to /auth_methods/foo invoke methods on
+the Act::AuthMethod::Foo object.  The following methods must be implemented
+by subclasses of L<Act::AuthMethod>:
+
+=head2 new
+
+The new method is called on the subclass.  It should return an instance of
+the auth method handler, or undef if that handler is invalid (ex. if the
+prerequisite modules are not available, or if the required configuration
+isn't present).
+
+=head2 render
+
+Called on instances of each subclass.  Should return an HTML link that
+initiates the authentication process with the external authentication
+provider.
+
+=head2 name
+
+The name of the authentication handler.  Used to link callbacks to the
+handler for further processing.  If your handler needs to generate a
+callback URL, it should use C<"/auth_methods/" . $self-E<gt>name>.
+
+=head2 handle_postback($req)
+
+Called with an L<Act::Request> as its only argument, this method is called
+when a request is sent to C<"/auth_methods/" . $self-E<gt>name>.  The method
+is responsible for determining whether or not the authentication request was
+successful, and if so, whether not the externally authenticated user is
+currently associated with a user in Act.  If so, the Act user ID must be
+returned; if not, undef must be returned.
+
+=head2 associate_with_user($req, $user)
+
+Called with an L<Act::Request> and an L<Act::User>, this method should
+associate the user from the previous call to L</handle_postback> with
+C<$user>.
+
+=cut

@@ -39,6 +39,10 @@ How to write handlers.
 
 Act's database usage.
 
+=item L<Act::Manual::Developer::ExternalAuth>
+
+Details of how external authentication is implemented in Act.
+
 =back
 
 =cut
