@@ -319,7 +319,8 @@ CREATE TABLE twitter_auths
     access_token        TEXT    NOT NULL,
     access_token_secret TEXT    NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    UNIQUE(user_id)
 ) INHERITS(auth_methods);
 
 EOF
