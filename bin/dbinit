@@ -308,6 +308,7 @@ CREATE TABLE facebook_auths
 (
     facebook_id INTEGER NOT NULL UNIQUE,
 
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     UNIQUE(user_id)
 ) INHERITS(auth_methods);
 
@@ -316,7 +317,9 @@ CREATE TABLE twitter_auths
 (
     twitter_id          INTEGER NOT NULL UNIQUE,
     access_token        TEXT    NOT NULL,
-    access_token_secret TEXT    NOT NULL
+    access_token_secret TEXT    NOT NULL,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 ) INHERITS(auth_methods);
 
 EOF
