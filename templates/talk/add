@@ -226,7 +226,7 @@
   <td align="right" valign="top">{{Aww, why not?}}</td>
   <td>&nbsp;</td>
   <td>
-    <input type="text" name="opt_out_reason" />
+    <input type="text" name="opt_out_reason" size="51" maxlength="100" />
   </td>
 </tr>
 <tr>
