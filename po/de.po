@@ -891,3 +891,9 @@ msgstr "verbindlich anmelden"
 
 msgid "No account?"
 msgstr "Kein Konto? Sie können sich <a href=\"%1\">hier</a> anmelden:"
+
+msgid "May we record your talk?"
+msgstr "Dürfen wir Ihren Vortrag aufnehmen?"
+
+msgid "Aww, why not?"
+msgstr "Aww, wieso nicht?"

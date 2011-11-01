@@ -1415,3 +1415,9 @@ msgstr "User is not registered."
 
 msgid "No account?"
 msgstr "No account? Register <a href=\"%1\">here</a>."
+
+msgid "May we record your talk?"
+msgstr "May we record your talk?"
+
+msgid "Aww, why not?"
+msgstr "Aww, why not?"
