@@ -125,30 +125,33 @@ CREATE INDEX tracks_idx ON tracks ( conf_id );
 DROP   TABLE talks CASCADE;
 CREATE TABLE talks
 (
-    talk_id    serial    NOT NULL    PRIMARY KEY,
-    conf_id    text      NOT NULL,
-    user_id    integer   NOT NULL,
+    talk_id        serial    NOT NULL    PRIMARY KEY,
+    conf_id        text      NOT NULL,
+    user_id        integer   NOT NULL,
 
     /* talk info */
-    title        text,
-    abstract     text,
-    url_abstract text,
-    url_talk     text,
-    duration     integer,
-    lightning    boolean DEFAULT false NOT NULL,
+    title          text,
+    abstract       text,
+    url_abstract   text,
+    url_talk       text,
+    duration       integer,
+    lightning      boolean DEFAULT false NOT NULL,
 
     /* for the organisers */
-    accepted     boolean DEFAULT false NOT NULL,
-    confirmed    boolean DEFAULT false NOT NULL,
-    comment      text,
+    accepted       boolean DEFAULT false NOT NULL,
+    confirmed      boolean DEFAULT false NOT NULL,
+    comment        text,
 
     /* for the schedule */
-    room         text,
-    datetime     timestamp without time zone,
-    track_id     integer REFERENCES tracks(track_id) ON DELETE SET NULL,
+    room           text,
+    datetime       timestamp without time zone,
+    track_id       integer REFERENCES tracks(track_id) ON DELETE SET NULL,
 
-    level        integer DEFAULT 1,
-    lang         text,
+    level          integer DEFAULT 1,
+    lang           text,
+
+    opt_out_reason text, /* NULL if the speaker doesn't opt-out of having
+                            his/her talk recorded */
 
     FOREIGN KEY( user_id  ) REFERENCES users( user_id )
 );
