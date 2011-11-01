@@ -23,7 +23,7 @@ my $form = Act::Form->new(
   required => [qw(title abstract)],
   optional => [qw(url_abstract url_talk comment duration is_lightning
                   accepted confirmed date time room delete track_id level lang
-                  tags )],
+                  tags opt_out_reason)],
   filters  => {
      track_id => sub { $_[0] || undef },
      tags     => sub { join ' ',  Act::Tag->split_tags( $_[0] ) },
