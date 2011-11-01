@@ -98,6 +98,10 @@ sub handler {
         # form has been submitted
         my @errors;
 
+        if($Request{args}{record_talk_ok} eq 'on') {
+            delete @{ $Request{args} }{qw/record_talk_ok opt_out_reason/};
+        }
+
         # validate form fields
         my $ok = $form->validate($Request{args});
         $fields = { accepted => 0, confirmed => 0, track_id => undef, %{$form->{fields}} };
