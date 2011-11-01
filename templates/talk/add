@@ -216,6 +216,20 @@
    </td>
 </tr>
 <tr>
+  <td align="right" valign="top">{{May we record your talk?}}</td>
+  <td>&nbsp;</td>
+  <td>
+    <input type="checkbox" id="record_talk_ok" name="record_talk_ok" checked />
+  </td>
+</tr>
+<tr id="opt_out_reason_row" style="display: none">
+  <td align="right" valign="top">{{Aww, why not?}}</td>
+  <td>&nbsp;</td>
+  <td>
+    <input type="text" name="opt_out_reason" />
+  </td>
+</tr>
+<tr>
    <td colspan="3" align="right">
       <input type="submit" name="submit" value="{{Submit this talk}}" />
    </td>
@@ -225,5 +239,18 @@
 
 </form>
 </center>
+
+<script type="text/javascript">
+    // XXX do this later with jQuery
+    // I don't have time to figure out
+    // how to delay this for when it's loaded
+    (function() {
+        var record_talk_ok = document.getElementById('record_talk_ok');
+        record_talk_ok.onchange = function() {
+            var opt_out_reason_row = document.getElementById('opt_out_reason_row');
+            opt_out_reason_row.style.display = record_talk_ok.checked ? 'none' : '';
+        };
+    })();
+</script>
 
 [% END %]
