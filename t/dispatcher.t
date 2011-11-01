@@ -141,7 +141,7 @@ $r->set_always(server      => $s)
   ->mock(uri           => sub { $vin{request_uri} })
   ->mock(method        => sub { @_ > 1 and $vout{method} = $_[1]; $vin{method} })
   ->mock(push_handlers => sub { $vout{pushed_handler} = $_[2] })
-  ->mock(header_in     => sub { $vin{headers_in}{$_[1]} })
+  ->mock(header        => sub { $vin{headers_in}{$_[1]} })
   ->mock(param         => sub { @_ > 1 ? $vin{args}{$_[1]} : keys %{$vin{args}} });
 
 Test::MockObject->fake_module('Act::Request', instance => sub { $r });

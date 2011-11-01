@@ -242,7 +242,7 @@ sub usort(&@)
 }
 
 sub ua_isa_bot {
-    $Request{r}->header_in('User-Agent') =~ /
+    $Request{r}->header('User-Agent') =~ /
       altavista
     | crawler
     | gigabot

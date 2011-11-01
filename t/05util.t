@@ -14,8 +14,8 @@ BEGIN { use_ok('Act::Util') }
 my $uri;
 my %headers;
 $Request{r} = Test::MockObject->new;
-$Request{r}->mock( uri       => sub { return $uri } );
-$Request{r}->mock( header_in => sub { return $headers{ $_[1] } } );
+$Request{r}->mock( uri    => sub { return $uri } );
+$Request{r}->mock( header => sub { return $headers{ $_[1] } } );
 
 # create a fake config object
 my %variants;

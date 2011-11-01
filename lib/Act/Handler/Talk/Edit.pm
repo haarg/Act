@@ -90,7 +90,7 @@ sub handler {
       unless $Request{user}->has_registered;
 
     # automatically compute the return URL
-    my $referer = $Request{r}->header_in('Referer');
+    my $referer = $Request{r}->header('Referer');
     $Request{args}{return_url} ||= $referer
         if $referer =~ m{/(?:main|talks?|schedule|user)};
 
