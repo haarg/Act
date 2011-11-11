@@ -169,6 +169,8 @@ sub _test_config
 {
     my ($cfg, $name) = @_;
 
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
     # simple fields
     ok($cfg->$_, "$name $_") for @simple;
 }
