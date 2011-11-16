@@ -4,6 +4,12 @@ This is a guide on getting started working on Act.  It's based on
 http://blog.yapcna.org/post/9270310486/hacking-on-act, but will
 include improvements over time.
 
+=head2 Installing dependencies
+
+Thanks to cpanminus, installing the dependencies is fairly easy:
+
+  cpanm --installdeps .
+
 =head2 Setting up the database
 
 Act uses PostgreSQL for its data storage.  I'll assume that you know how to
