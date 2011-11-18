@@ -1415,3 +1415,6 @@ msgstr "User is not registered."
 
 msgid "No account?"
 msgstr "No account? Register <a href=\"%1\">here</a>."
+
+msgid "Sorry, registration for this conference has been closed."
+msgstr "Sorry, registration for this conference has been closed."
