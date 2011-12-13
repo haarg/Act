@@ -892,6 +892,9 @@ msgstr "verbindlich anmelden"
 msgid "No account?"
 msgstr "Kein Konto? Sie können sich <a href=\"%1\">hier</a> anmelden:"
 
+msgid "Sorry, registration for this conference has been closed."
+msgstr "Tut mir leid, die Anmeldung für diese Konferenz wurde geschlossen."
+
 msgid "Conference Registration Closed"
 msgstr "Konferenz Anmeldung Geschlossen"
 
