@@ -1418,3 +1418,9 @@ msgstr "No account? Register <a href=\"%1\">here</a>."
 
 msgid "Sorry, registration for this conference has been closed."
 msgstr "Sorry, registration for this conference has been closed."
+
+msgid "Conference Registration Closed"
+msgstr "Conference Registration Closed"
+
+msgid "You can no longer purchase a badge for this conference online. Instead, you may purchase a badge at the registration desk upon arrival."
+msgstr "You can no longer purchase a badge for this conference online. Instead, you may purchase a badge at the registration desk upon arrival."
