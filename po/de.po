@@ -915,3 +915,6 @@ msgstr "Abrechnung"
 
 msgid "Delayed payment"
 msgstr "verbindlich anmelden"
+
+msgid "No account?"
+msgstr "Kein Konto? Sie können sich <a href=\"%1\">hier</a> anmelden:"

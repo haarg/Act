@@ -1437,3 +1437,5 @@ msgstr "Unknown order ID."
 msgid "User is not registered."
 msgstr "User is not registered."
 
+msgid "No account?"
+msgstr "No account? Register <a href=\"%1\">here</a>."
