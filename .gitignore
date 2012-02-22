@@ -2,5 +2,7 @@
 *.swp
 *.swo
 /META.yml
+/MYMETA.json
+/MYMETA.yml
 /Makefile
 /inc
