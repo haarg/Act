@@ -142,7 +142,7 @@ sub register_participation {
   });
   
   $sth->execute( $self->user_id, $Request{conference},
-    $Request{r}->connection->remote_ip, $tshirt_size );
+    $Request{r}->address, $tshirt_size );
   $sth->finish();
   $Request{dbh}->commit;
 }
