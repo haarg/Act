@@ -80,6 +80,7 @@ sub to_app {
                 my $env = shift;
                 my $req = Plack::Request->new($env);
                 $env->{'act.base_url'} = $req->base->as_string;
+                $env->{'act.base_url'} =~ s/\/$//;
                 $app->($env);
             };
         };
