@@ -102,23 +102,33 @@ sub conference_app {
     my $config = Act::Config::get_config($conference);
 
     my $static_app = Act::Handler::Static->new;
+    my $public_app = builder {
+        enable '+Act::Middleware::Auth';
+        for my $uri ( keys %public_handlers ) {
+            mount "/$uri" => _handler_app($public_handlers{$uri});
+        }
+        mount '/' => sub { [99, [], []] };
+    };
+    my $private_app = builder {
+        enable '+Act::Middleware::Auth', private => 1;
+        for my $uri ( keys %private_handlers ) {
+            mount "/$uri" => _handler_app($private_handlers{$uri});
+        }
+        mount '/' => sub { [99, [], []] };
+    };
 
-    my $app = Plack::App::Cascade->new( catch => [99], apps => [
+    my $app = sub {
+        $_[0]->{'PATH_INFO'} =~ /\.html?$/ && goto &$static_app;
+        
+    };
+    Plack::App::Cascade->new( catch => [99], apps => [
         sub {
-            $_[0]->{'PATH_INFO'} =~ /\.html?$/ && goto &$static_app;
             return [99, [], []];
         },
         builder {
             enable '+Act::Middleware::Auth';
             for my $uri ( keys %public_handlers ) {
                 mount "/$uri" => _handler_app($public_handlers{$uri});
-            }
-            mount '/' => sub { [99, [], []] };
-        },
-        builder {
-            enable '+Act::Middleware::Auth', private => 1;
-            for my $uri ( keys %private_handlers ) {
-                mount "/$uri" => _handler_app($private_handlers{$uri});
             }
             mount '/' => sub { [99, [], []] };
         },
