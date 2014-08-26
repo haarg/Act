@@ -10,7 +10,10 @@ use Digest::MD5 qw( md5_hex );
 use Carp;
 use List::Util qw(first);
 use base qw( Act::Object );
-use Crypt::Eksblowfish::Bcrypt;
+use Authen::Passphrase;
+use Authen::Passphrase::SaltedDigest;
+use Authen::Passphrase::BlowfishCrypt;
+use MIME::Base64 ();
 
 # rights
 our @Rights = qw( admin users_admin talks_admin news_admin wiki_admin
@@ -421,15 +424,12 @@ sub set_password {
 sub _crypt_password {
     my $class = shift;
     my $pass = shift;
-    my $cost = $Config->bcrypt_cost;
-    my $salt = $Config->bcrypt_salt;
-    return '{BCRYPT}' . Crypt::Eksblowfish::Bcrypt::en_base64(
-        Crypt::Eksblowfish::Bcrypt::bcrypt_hash({
-            key_nul => 1,
-            cost => $cost,
-            salt => $salt,
-        }, $pass)
+    my $auth = Authen::Passphrase::BlowfishCrypt->new(
+      cost => ($Config->bcrypt_cost || 12),
+      salt_random => 1,
+      passphrase => $pass,
     );
+    return $auth->as_crypt;
 }
 
 sub check_password {
@@ -437,25 +437,26 @@ sub check_password {
     my $check_pass = shift;
 
     my $pw_hash = $self->{passwd};
-    my ($scheme, $hash) = $pw_hash =~ /^(?:{(\w+)})?(.*)$/;
-    $scheme ||= 'MD5';
 
-    if ($scheme eq 'MD5') {
-        my $digest = Digest::MD5->new;
-        $digest->add(lc $check_pass);
-        $digest->b64digest eq $hash
-            or die 'Bad password';
-        # upgrade hash
-        $self->set_password($check_pass);
+    my $pass;
+
+    if ($pw_hash =~ /^\$[0-9a-zA-Z]+\$/) {
+      $pass = Authen::Passphrase->from_crypt($pw_hash);
     }
-    elsif ($scheme eq 'BCRYPT') {
-        my $check_hash = $self->_crypt_password($check_pass);
-        $check_hash eq $pw_hash
-            or die 'Bad password';
+    elsif ($pw_hash =~ /^\{[0-9a-zA-Z]\}/) {
+      $pass = Authen::Passphrase->from_rfc2307($pw_hash);
     }
     else {
-        die 'Bad user data';
+      $pass = Authen::Passphrase::SaltedDigest->new(
+        algorithm => 'MD5',
+        hash      => MIME::Base64::decode_base64($pw_hash),
+      );
     }
+    $pass->match($check_pass)
+      or die 'Bad password';
+
+    $self->set_password($check_pass)
+      unless $pass->isa('Authen::Passphrase::BlowfishCrypt');
 }
 
 1;

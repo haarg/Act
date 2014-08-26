@@ -4,7 +4,9 @@ all_from 'lib/Act.pm';
 requires(
 'AppConfig' => 0, 
 'Clone' => 0, 
-'Crypt::Eksblowfish::Bcrypt' => 0,
+'Authen::Passphrase' => 0,
+'Authen::Passphrase::SaltedDigest' => 0,
+'Authen::Passphrase::BlowfishCrypt' => 0,
 'DBI' => 0, 
 'DBD::Pg' => 1.22,
 'Data::ICal' => '0.16', # Data::ICal::Entry::Event
@@ -33,6 +35,7 @@ requires(
 'LWP::UserAgent' => 0, 
 'List::Pairwise' => 0, 
 'Locale::Maketext::Lexicon' => 0, 
+'MIME::Base64' => 0,
 'Net::OpenID::Server' => 0, 
 'Pod::POM' => 0, 
 'Plack'    => 0,
